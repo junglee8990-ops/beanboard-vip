@@ -9,10 +9,9 @@
 body {
   margin: 0;
   font-family: Arial;
-  overflow: hidden;
 }
 
-/* HOME */
+/* ===== HOME ===== */
 #home {
   height: 100vh;
   background: linear-gradient(135deg,#1e1e1e,#3a2f2f);
@@ -27,13 +26,13 @@ body {
 }
 
 #home img {
-  width: 230px;
+  width: 250px;
   cursor: pointer;
 }
 
-/* MENU */
+/* ===== MENU PAGE ===== */
 #menu {
-  height: 100vh;
+  min-height: 200vh; /* allows scrolling */
   width: 100%;
   position: absolute;
   top: 100%;
@@ -43,32 +42,34 @@ body {
 
 .overlay {
   background: rgba(0,0,0,0.7);
-  height: 100%;
+  min-height: 200vh;
   color: white;
-  display: flex;
-  flex-direction: column;
 }
 
-/* HEADING */
+/* ===== SECTION ===== */
+.section {
+  padding: 20px;
+}
+
+/* ===== HEADING ===== */
 h1 {
   text-align: center;
-  margin: 10px;
 }
 
-/* CATEGORY BAR */
+/* ===== CATEGORY ===== */
 .categories {
   display: flex;
   overflow-x: auto;
-  padding: 10px;
   gap: 10px;
+  padding: 10px;
+  justify-content: center;
 }
 
 .categories div {
-  padding: 10px 20px;
+  padding: 12px 22px;
   background: rgba(255,255,255,0.3);
-  border-radius: 20px;
+  border-radius: 25px;
   cursor: pointer;
-  white-space: nowrap;
 }
 
 .categories div.active {
@@ -76,26 +77,24 @@ h1 {
   color: black;
 }
 
-/* SLIDER CONTAINER */
+/* ===== SLIDER ===== */
 .slider {
-  flex: 1;
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
 }
 
-/* SLIDE TRACK */
 .track {
   display: flex;
-  transition: transform 0.5s ease;
+  transition: 0.5s;
 }
 
-/* CARD */
+/* ===== BIGGER CARD ===== */
 .card {
-  min-width: 80%;
-  margin: 0 10%;
+  min-width: 90%;
+  margin: 20px 5%;
   background: white;
   color: black;
-  padding: 20px;
+  padding: 25px;
   border-radius: 20px;
   text-align: center;
 }
@@ -105,36 +104,48 @@ h1 {
   border-radius: 15px;
 }
 
-/* ARROWS */
+.card h3 {
+  font-size: 22px;
+}
+
+.card p {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* ===== ARROWS ===== */
 .arrow {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 40%;
   background: black;
+  color: white;
   padding: 10px;
-  border-radius: 50%;
   cursor: pointer;
+  border-radius: 50%;
 }
 
 .left { left: 10px; }
 .right { right: 10px; }
 
-/* LINKS */
-.links {
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
+/* ===== CONTACT SECTION ===== */
+.contact {
+  text-align: center;
+  padding: 40px 20px;
 }
 
-.links a {
-  background: white;
-  color: black;
-  padding: 8px 15px;
-  border-radius: 20px;
+.contact a {
+  display: block;
+  margin: 10px;
+  font-size: 18px;
+  color: white;
   text-decoration: none;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-weight: bold;
 }
 
 </style>
@@ -147,28 +158,51 @@ h1 {
   <img src="./logo.jpg" onclick="openMenu()">
 </div>
 
-<!-- MENU -->
+<!-- MENU + CONTACT -->
 <div id="menu">
   <div class="overlay">
 
-    <h1 id="title">Menu</h1>
+    <!-- MENU SECTION -->
+    <div class="section">
+      <h1>Menu</h1>
 
-    <div class="categories">
-      <div onclick="load('hot',this)">Hot</div>
-      <div onclick="load('cold',this)">Cold</div>
-      <div onclick="load('food',this)">Food</div>
+      <div class="categories">
+        <div onclick="load('hot',this)">Hot</div>
+        <div onclick="load('cold',this)">Cold</div>
+        <div onclick="load('food',this)">Food</div>
+      </div>
+
+      <div class="slider">
+        <div class="arrow left" onclick="move(-1)">❮</div>
+        <div class="arrow right" onclick="move(1)">❯</div>
+
+        <div class="track" id="track">
+          <h2 style="margin:auto">Click category ☕</h2>
+        </div>
+      </div>
     </div>
 
-    <div class="slider">
-      <div class="arrow left" onclick="move(-1)">❮</div>
-      <div class="arrow right" onclick="move(1)">❯</div>
+    <!-- CONTACT SECTION -->
+    <div class="contact">
 
-      <div class="track" id="track"></div>
+      <h2>Contact Us</h2>
+
+      <a href="https://www.instagram.com/beanboard_vip?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+        Instagram 📸
+      </a>
+
+      <a href="https://maps.google.com" target="_blank">
+        Location 📍
+      </a>
+
+      <p>📞 +91 1234567890</p>
+      <p>📧 abc@gmail.com</p>
+
     </div>
 
-    <div class="links">
-      <a href="https://www.instagram.com/beanboard_vip?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">Instagram</a>
-      <a href="https://maps.google.com" target="_blank">Location</a>
+    <!-- FOOTER -->
+    <div class="footer">
+      Bean Board VIP ☕
     </div>
 
   </div>
@@ -200,7 +234,7 @@ let data={
   ]
 }
 
-/* LOAD CATEGORY */
+/* LOAD */
 function load(type,el){
 
   document.querySelectorAll(".categories div").forEach(x=>x.classList.remove("active"))
@@ -227,16 +261,13 @@ function load(type,el){
 /* MOVE */
 function move(dir){
   index+=dir
-
   let total=document.querySelectorAll(".card").length
-
   if(index<0) index=0
   if(index>=total) index=total-1
-
   update()
 }
 
-/* UPDATE POSITION */
+/* UPDATE */
 function update(){
   track.style.transform=`translateX(-${index*100}%)`
 }
@@ -245,5 +276,3 @@ function update(){
 
 </body>
 </html>
-
-    

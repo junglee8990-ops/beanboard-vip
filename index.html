@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Bean Board</title>
+<title>Bean Board VIP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
-/* RESET */
+/* ===== BODY ===== */
 body {
   margin: 0;
-  font-family: Arial;
+  font-family: 'Segoe UI', sans-serif;
   overflow: hidden;
 }
 
 /* ===== HOME PAGE ===== */
 #home {
   height: 100vh;
-  background: black;
+  background: linear-gradient(135deg, #1e1e1e, #3a2f2f); /* aesthetic */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,7 +29,7 @@ body {
 }
 
 #home img {
-  width: 220px;
+  width: 240px;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -49,33 +49,62 @@ body {
   transition: 0.8s;
 }
 
-/* OVERLAY */
+/* DARK OVERLAY */
 .overlay {
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.65);
   height: 100%;
   color: white;
+  display: flex;
+  flex-direction: column;
 }
 
-/* HEADING */
-h1 {
+/* ===== HEADER ===== */
+.header {
   text-align: center;
-  padding: 20px;
+  padding: 15px;
 }
 
-/* CATEGORY BAR */
+.header h1 {
+  margin: 10px 0;
+}
+
+/* ===== LINKS (BOTTOM FIXED) ===== */
+.links {
+  position: fixed;
+  bottom: 15px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.links a {
+  text-decoration: none;
+  background: white;
+  color: black;
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* ===== CATEGORY BAR ===== */
 .categories {
   display: flex;
   overflow-x: auto;
   padding: 10px;
+  justify-content: center;
 }
 
 .categories div {
-  padding: 10px 20px;
+  padding: 12px 22px;
   margin: 5px;
   background: rgba(255,255,255,0.3);
-  border-radius: 20px;
+  border-radius: 25px;
   cursor: pointer;
   white-space: nowrap;
+  font-size: 15px;
 }
 
 .categories div.active {
@@ -83,58 +112,79 @@ h1 {
   color: black;
 }
 
-/* SLIDER */
+/* ===== SLIDER ===== */
 .slider {
   position: relative;
-  margin: 30px;
-  height: 320px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* CARD */
+/* ===== CARD ===== */
 .card {
-  width: 260px;
+  width: 320px; /* bigger */
   background: white;
   color: black;
-  padding: 15px;
-  border-radius: 15px;
+  padding: 20px;
+  border-radius: 20px;
   text-align: center;
-  margin: auto;
+  animation: fade 0.4s;
 }
 
 .card img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 15px;
 }
 
-/* ARROWS */
+.card h3 {
+  margin: 15px 0 5px;
+}
+
+.card p {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* ===== ARROWS ===== */
 .arrow {
   position: absolute;
-  top: 40%;
+  top: 50%;
+  transform: translateY(-50%);
   background: black;
   color: white;
-  padding: 10px;
+  padding: 12px;
   cursor: pointer;
   border-radius: 50%;
+  font-size: 18px;
 }
 
-.left { left: 10px; }
-.right { right: 10px; }
+.left { left: 15px; }
+.right { right: 15px; }
+
+/* ===== ANIMATION ===== */
+@keyframes fade {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
 
 </style>
 </head>
 
 <body>
 
-<!-- HOME PAGE -->
+<!-- ===== HOME ===== -->
 <div id="home">
   <img src="./logo.jpg" onclick="openMenu()">
 </div>
 
-<!-- MENU PAGE -->
+<!-- ===== MENU ===== -->
 <div id="menu">
   <div class="overlay">
 
-    <h1>Menu</h1>
+    <div class="header">
+      <h1>Bean Board Menu</h1>
+    </div>
 
     <div class="categories">
       <div onclick="load('hot', this)">Hot Drinks</div>
@@ -143,14 +193,18 @@ h1 {
     </div>
 
     <div class="slider">
-
       <div class="arrow left" onclick="move(-1)">❮</div>
       <div class="arrow right" onclick="move(1)">❯</div>
 
-      <div id="box" style="text-align:center; margin-top:50px;">
+      <div id="box">
         <h2>Click a category ☕</h2>
       </div>
+    </div>
 
+    <!-- LINKS (BOTTOM, NO OVERLAP) -->
+    <div class="links">
+      <a href="https://www.instagram.com/beanboard_vip?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">Instagram</a>
+      <a href="https://maps.google.com" target="_blank">Location</a>
     </div>
 
   </div>
@@ -173,17 +227,20 @@ let data = {
   hot: [
     ["Espresso",100,"https://images.unsplash.com/photo-1511920170033-f8396924c348"],
     ["Latte",140,"https://images.unsplash.com/photo-1509042239860-f550ce710b93"],
-    ["Cappuccino",140,"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085"]
+    ["Cappuccino",140,"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085"],
+    ["Mocha",180,"https://images.unsplash.com/photo-1572441710534-68079b0b3e1f"]
   ],
 
   cold: [
     ["Cold Brew",210,"https://images.unsplash.com/photo-1461023058943-07fcbe16d735"],
-    ["Mint Cold Brew",160,"https://images.unsplash.com/photo-1517701604599-bb29b565090c"]
+    ["Mint Cold Brew",160,"https://images.unsplash.com/photo-1517701604599-bb29b565090c"],
+    ["Espresso Tonic",250,"https://images.unsplash.com/photo-1527169402691-feff5539e52c"]
   ],
 
   food: [
     ["Fries",200,"https://images.unsplash.com/photo-1541592106381-b31e9677c0e5"],
-    ["Sandwich",380,"https://images.unsplash.com/photo-1550547660-d9450f859349"]
+    ["Sandwich",380,"https://images.unsplash.com/photo-1550547660-d9450f859349"],
+    ["French Toast",260,"https://images.unsplash.com/photo-1482049016688-2d3e1b311543"]
   ]
 
 };

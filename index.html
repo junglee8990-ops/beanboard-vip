@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bean Board</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0f0f0f;
+      overflow: hidden;
+    }
+
+    img {
+      width: 250px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+
+    img:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+
+<body>
+
+<img src="logo.jpg" onclick="goToMenu()">
+
+<script>
+function goToMenu() {
+  window.location.href = "menu.html";
+}
+</script>
+
+</body>
+</html>

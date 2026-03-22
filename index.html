@@ -1,41 +1,199 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bean Board</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu - Bean Board</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #0f0f0f;
-      overflow: hidden;
-    }
+<style>
 
-    img {
-      width: 250px;
-      cursor: pointer;
-      border-radius: 10px;
-      transition: 0.3s;
-    }
+body {
+  margin: 0;
+  font-family: Arial;
+  background: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24') center/cover no-repeat;
+  background-attachment: fixed;
+}
 
-    img:hover {
-      transform: scale(1.1);
-    }
-  </style>
+/* DARK OVERLAY */
+.overlay {
+  background: rgba(0,0,0,0.5);
+  min-height: 100vh;
+  color: white;
+}
+
+/* HEADING */
+h1 {
+  text-align: center;
+  padding: 20px;
+}
+
+/* CATEGORY BAR */
+.categories {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+}
+
+.categories div {
+  padding: 10px 20px;
+  margin: 5px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.categories div.active {
+  background: white;
+  color: black;
+}
+
+/* SLIDER */
+.slider {
+  position: relative;
+  margin: 20px;
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+  transition: 0.5s;
+}
+
+.card {
+  min-width: 280px;
+  background: rgba(255,255,255,0.9);
+  color: black;
+  margin: 10px;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.card h3 {
+  margin: 0;
+}
+
+.price {
+  float: right;
+  font-weight: bold;
+}
+
+/* ARROWS */
+.arrow {
+  position: absolute;
+  top: 40%;
+  background: black;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.left {
+  left: 5px;
+}
+
+.right {
+  right: 5px;
+}
+
+</style>
 </head>
 
 <body>
 
-<img src="logo.jpg" onclick="goToMenu()">
+<div class="overlay">
+
+<h1>Menu</h1>
+
+<!-- CATEGORY -->
+<div class="categories">
+  <div onclick="show('featured', this)" class="active">Featured</div>
+  <div onclick="show('hot', this)">Hot Drinks</div>
+  <div onclick="show('cold', this)">Cold Drinks</div>
+  <div onclick="show('food', this)">Small Bites</div>
+  <div onclick="show('pastry', this)">Pastry</div>
+</div>
+
+<!-- SLIDER -->
+<div class="slider">
+  <div class="arrow left" onclick="move(-1)">❮</div>
+  <div class="arrow right" onclick="move(1)">❯</div>
+
+  <div class="slides" id="slides"></div>
+</div>
+
+</div>
 
 <script>
-function goToMenu() {
-  window.location.href = "menu.html";
+
+let index = 0;
+
+function move(dir) {
+  index += dir;
+  document.getElementById("slides").style.transform =
+    "translateX(" + (-index * 300) + "px)";
 }
+
+function show(type, el) {
+
+  let tabs = document.querySelectorAll(".categories div");
+  tabs.forEach(t => t.classList.remove("active"));
+  el.classList.add("active");
+
+  let data = {
+
+    featured: [
+      ["Iced Strawberry Matcha", 260],
+      ["Matcha Latte", 200],
+      ["Iced Matcha", 220]
+    ],
+
+    hot: [
+      ["Espresso", 100],
+      ["Americano", 120],
+      ["Cappuccino", 140],
+      ["Latte", 140],
+      ["Mocha", 180]
+    ],
+
+    cold: [
+      ["Cold Brew", 210],
+      ["Mint Cold Brew", 160],
+      ["Espresso Tonic", 250]
+    ],
+
+    food: [
+      ["French Toast", 260],
+      ["Chicken Sando", 380],
+      ["Fries", 200]
+    ],
+
+    pastry: [
+      ["Mocha Pastry", 180],
+      ["Brownie", 150],
+      ["Cheesecake", 180]
+    ]
+
+  };
+
+  let html = "";
+  data[type].forEach(item => {
+    html += `
+      <div class="card">
+        <h3>${item[0]} <span class="price">₹${item[1]}</span></h3>
+      </div>
+    `;
+  });
+
+  document.getElementById("slides").innerHTML = html;
+  index = 0;
+  move(0);
+}
+
+show("featured", document.querySelector(".categories div"));
+
 </script>
 
 </body>

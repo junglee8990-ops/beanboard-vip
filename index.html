@@ -9,6 +9,7 @@
 body {
   margin: 0;
   font-family: Arial;
+  overflow: hidden; /* NO SCROLL ON HOME */
 }
 
 /* ===== HOME ===== */
@@ -26,34 +27,25 @@ body {
 }
 
 #home img {
-  width: 250px;
+  width: 240px;
   cursor: pointer;
 }
 
-/* ===== MENU PAGE ===== */
+/* ===== MENU ===== */
 #menu {
-  min-height: 200vh; /* allows scrolling */
+  height: 100vh;
   width: 100%;
   position: absolute;
   top: 100%;
   background: url('./bg.jpg') center/cover no-repeat;
   transition: 0.8s;
+  overflow-y: auto; /* scroll only here */
 }
 
 .overlay {
-  background: rgba(0,0,0,0.7);
-  min-height: 200vh;
+  min-height: 150vh;
+  background: rgba(0,0,0,0.6);
   color: white;
-}
-
-/* ===== SECTION ===== */
-.section {
-  padding: 20px;
-}
-
-/* ===== HEADING ===== */
-h1 {
-  text-align: center;
 }
 
 /* ===== CATEGORY ===== */
@@ -66,9 +58,10 @@ h1 {
 }
 
 .categories div {
-  padding: 12px 22px;
-  background: rgba(255,255,255,0.3);
-  border-radius: 25px;
+  padding: 10px 18px;
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.2);
+  border-radius: 20px;
   cursor: pointer;
 }
 
@@ -79,38 +72,30 @@ h1 {
 
 /* ===== SLIDER ===== */
 .slider {
-  position: relative;
   overflow: hidden;
+  position: relative;
 }
 
 .track {
   display: flex;
-  transition: 0.5s;
+  transition: transform 0.5s ease;
 }
 
-/* ===== BIGGER CARD ===== */
+/* ===== CARD ===== */
 .card {
-  min-width: 90%;
-  margin: 20px 5%;
-  background: white;
-  color: black;
-  padding: 25px;
+  min-width: 65%;
+  margin: 20px auto;
+  padding: 18px;
   border-radius: 20px;
   text-align: center;
+  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.15);
+  color: white;
 }
 
 .card img {
   width: 100%;
   border-radius: 15px;
-}
-
-.card h3 {
-  font-size: 22px;
-}
-
-.card p {
-  font-size: 20px;
-  font-weight: bold;
 }
 
 /* ===== ARROWS ===== */
@@ -120,14 +105,14 @@ h1 {
   background: black;
   color: white;
   padding: 10px;
-  cursor: pointer;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 .left { left: 10px; }
 .right { right: 10px; }
 
-/* ===== CONTACT SECTION ===== */
+/* ===== CONTACT ===== */
 .contact {
   text-align: center;
   padding: 40px 20px;
@@ -136,7 +121,6 @@ h1 {
 .contact a {
   display: block;
   margin: 10px;
-  font-size: 18px;
   color: white;
   text-decoration: none;
 }
@@ -154,38 +138,39 @@ h1 {
 <body>
 
 <!-- HOME -->
-<div id="home">
+<div id="home"
+     ontouchstart="startY=event.touches[0].clientY"
+     ontouchend="handleHomeSwipe(event)">
   <img src="./logo.jpg" onclick="openMenu()">
 </div>
 
-<!-- MENU + CONTACT -->
-<div id="menu">
+<!-- MENU -->
+<div id="menu"
+     ontouchstart="startY=event.touches[0].clientY"
+     ontouchend="handleMenuSwipe(event)">
   <div class="overlay">
 
-    <!-- MENU SECTION -->
-    <div class="section">
-      <h1>Menu</h1>
+    <h1 style="text-align:center;">Menu</h1>
 
-      <div class="categories">
-        <div onclick="load('hot',this)">Hot</div>
-        <div onclick="load('cold',this)">Cold</div>
-        <div onclick="load('food',this)">Food</div>
-      </div>
+    <div class="categories">
+      <div onclick="load('hot',this)">Hot</div>
+      <div onclick="load('cold',this)">Cold</div>
+      <div onclick="load('food',this)">Food</div>
+    </div>
 
-      <div class="slider">
-        <div class="arrow left" onclick="move(-1)">❮</div>
-        <div class="arrow right" onclick="move(1)">❯</div>
+    <div class="slider">
+      <div class="arrow left" onclick="move(-1)">❮</div>
+      <div class="arrow right" onclick="move(1)">❯</div>
 
-        <div class="track" id="track">
-          <h2 style="margin:auto">Click category ☕</h2>
-        </div>
+      <div class="track" id="track">
+        <h2 style="margin:auto">Click category ☕</h2>
       </div>
     </div>
 
-    <!-- CONTACT SECTION -->
+    <!-- CONTACT -->
     <div class="contact">
 
-      <h2>Contact Us</h2>
+      <h2>Contact</h2>
 
       <a href="https://www.instagram.com/beanboard_vip?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
         Instagram 📸
@@ -200,7 +185,6 @@ h1 {
 
     </div>
 
-    <!-- FOOTER -->
     <div class="footer">
       Bean Board VIP ☕
     </div>
@@ -210,14 +194,38 @@ h1 {
 
 <script>
 
-/* OPEN MENU */
+/* PAGE OPEN */
 function openMenu(){
   home.style.top="-100%";
   menu.style.top="0";
 }
 
+/* GO BACK */
+function closeMenu(){
+  home.style.top="0";
+  menu.style.top="100%";
+}
+
+/* SWIPE CONTROL */
+let startY=0;
+
+function handleHomeSwipe(e){
+  let endY=e.changedTouches[0].clientY
+  if(startY-endY > 60){
+    openMenu() /* swipe up */
+  }
+}
+
+function handleMenuSwipe(e){
+  let endY=e.changedTouches[0].clientY
+  if(endY-startY > 80){
+    closeMenu() /* swipe down */
+  }
+}
+
 /* DATA */
 let index=0;
+let items=[];
 
 let data={
   hot:[
@@ -236,15 +244,17 @@ let data={
 
 /* LOAD */
 function load(type,el){
-
   document.querySelectorAll(".categories div").forEach(x=>x.classList.remove("active"))
   el.classList.add("active")
-
+  items=data[type]
   index=0
+  render()
+}
 
+/* RENDER */
+function render(){
   let html=""
-
-  data[type].forEach(item=>{
+  items.forEach(item=>{
     html+=`
       <div class="card">
         <img src="${item[2]}">
@@ -253,17 +263,15 @@ function load(type,el){
       </div>
     `
   })
-
   track.innerHTML=html
   update()
 }
 
-/* MOVE */
+/* SLIDE */
 function move(dir){
   index+=dir
-  let total=document.querySelectorAll(".card").length
   if(index<0) index=0
-  if(index>=total) index=total-1
+  if(index>=items.length) index=items.length-1
   update()
 }
 
